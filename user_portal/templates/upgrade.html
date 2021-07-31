@@ -1,0 +1,112 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>registration</title>
+</head>
+<body>
+    <form action="register" method="POST">
+        {% csrf_token %}
+        <input type="text" name="firstname" placeholder="firstname"><br>
+        <input type="text" name="lastname" placeholder="lastname"><br>
+        <input type="username" name="username" placeholder="username"><br>
+        <input type="email" name="email" placeholder="email"><br>
+        <input type="password" name="password1" placeholder="password"><br>
+        <input type="password" name="password2" placeholder="confirm password"><br>
+        <button type="submit">submit</button>
+    </form>
+    <div>
+        {% for message in messages %}
+        <h3>{{message}}</h3>
+        {% endfor %}
+    </div>
+</body>
+</html> -->
+
+<!--
+Author: Colorlib
+Author URL: https://colorlib.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>registration Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Custom Theme files -->
+<link href="{% static 'registration.css'%}" rel="stylesheet" type="text/css" media="all" />
+<!-- //Custom Theme files -->
+<!-- web font -->
+<link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
+<!-- //web font -->
+</head>
+<body>
+	<!-- main -->
+	<div class="main-w3layouts wrapper">
+		<h1>Upgrade your Account</h1>
+		<div class="main-agileinfo">
+			<div class="agileits-top">
+                {% if user.is_prouser is False %}
+				<form action="upgrade" method="post">
+                    {% csrf_token %}
+                    <fieldset class="text">
+                        <legend class="text"></legend>
+                        <input class="text" type="text" name="is_prouser" value="True" required=""><br>
+                        <!-- <input class="text" type="text" name="lastname" placeholder="lastname" required=""><br> -->
+                    </fieldset>
+                    <!-- <input class="text" type="text" name="firstname" placeholder="firstname" required=""><br>
+                    <input class="text" type="text" name="lastname" placeholder="lastname" required=""><br> -->
+					<div class="wthree-text">
+						<label class="anim">
+							<input type="checkbox" class="checkbox" required="">
+							<span>I Agree To The Terms & Conditions</span>
+						</label>
+						<div class="clear"> </div>
+					</div>
+					<input type="submit" value="update">
+				</form>
+                {% else %}
+                <form action="Home" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Home">
+                </form>
+                {% endif %}
+
+                <!-- <p>{% if Account.is_authenticated %}
+                    <li>Hello, {{Account.username}}</li>
+                    <li> <a href="logout">Logout</a> </li>
+                    {% else %}
+                    <li> <a href="register">register</a> </li>
+                    <li>Already have an Account? <a href="login">login Here</a> </li>
+                    {% endif %}</p> -->
+				<!-- <p>Don't have an Account? <a href="#"> Login Now!</a></p> -->
+			</div>
+		</div>
+		<!-- copyright -->
+		<!-- <div class="colorlibcopy-agile">
+			<p>© 2018 Colorlib Signup Form. All rights reserved | Design by <a href="https://colorlib.com/" target="_blank">Colorlib</a></p>
+		</div> -->
+		<!-- //copyright -->
+		<ul class="colorlib-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<!-- //main -->
+</body>
+</html>

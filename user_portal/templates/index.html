@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" >
+    <title>Document</title>
+</head>
+<style>
+    h1 {
+  text-align: center;
+  /* color: blue; */
+}
+td, th {
+  border: 2px solid #999;
+  padding: 1rem;
+}
+td:nth-child(1) { background: hsl(150, 50%, 50%); }
+td:nth-child(2) { background: hsl(160, 60%, 50%); }
+td:nth-child(3) { background: hsl(170, 70%, 50%); }
+td:nth-child(4) { background: hsl(180, 80%, 50%); }
+td:nth-child(5) { background: hsl(190, 90%, 50%); }
+td:nth-child(6) { background: hsl(200, 99%, 50%); }
+td:nth-child(7) { background: hsl(170, 70%, 50%); }
+td:nth-child(8) { background: hsl(180, 80%, 50%); }
+td:nth-child(9) { background: hsl(190, 90%, 50%); }
+td:nth-child(10) { background: hsl(200, 99%, 50%); }
+th {
+  background: lightblue;
+  border-color: white;
+}
+/* ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: hsl(171, 100%, 41%);
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+li {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 5px 30px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: rgb(96, 128, 170);
+}
+
+.active {
+  background-color: #6b867c;
+} */
+
+</style>
+<body>
+        <nav class="navbar has-shadow is-green">
+          <a class="navbar-burger" id="burger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
+          {% if user.is_authenticated %}
+          <div class="navbar-menu" id="nav-links">
+            <h2 class="is-size-3">Hello, {{user.username}}!</h2>
+            <div class="navbar-end">
+              <a class="navbar-item" href="Home">Home</a>
+              <a class="navbar-item" href="logout">Logout</a>
+              <a class="navbar-item">About us</a>
+              <a class="navbar-item">About product</a>
+            </div>
+          </div>
+          {% else %}
+          <div class="navbar-menu" id="nav-links">
+            <div class="navbar-end">
+              <a class="navbar-item" href="register">Register</a>
+              <a class="navbar-item" href="login">Login</a>
+              <a class="navbar-item">About us</a>
+              <a class="navbar-item">About product</a>
+            </div>
+          </div>
+          {% endif %}
+        </nav>
+
+      <!-- <ul><p>{% if user.is_authenticated %}
+        <li><a href="Home" style="font-size:x-large;">Home</a></li> 
+        <li><a href="logout" style="font-size:x-large;">Logout</a></li>
+        <h2>Hello, {{user.username}}!</h2>
+        {% else %}
+        <li><a href="register" style="font-size:x-large;">Register</a></li> 
+        <li><a href="login" style="font-size:x-large;">Login</a></li>  -->
+
+        <!-- {% endif %}</p></ul><br><br><br> -->
+           
+        <h1 class="is-size-3">Dashboard</h1>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="table-container">
+                <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                  <!-- Your table content -->
+                  <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">data entry</th>
+                        <th scope="col">username</th>
+                        <th scope="col">Total sequenced</th>
+                        <th scope="col">Sequenced last week</th>
+                        <th scope="col">Cumulative sequenced</th>
+                        <th scope="col">Uploaded IGIB SFTP</th>
+                        <th scope="col">Uploaded NIBMG DataHub</th>
+                        <th scope="col">Uploaded GISAID</th>
+                        <th scope="col">Any collaboration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in data %}
+                    <tr>
+                        <th scope="row">{{data.id}}</th>
+                        <td>{{data.data_entry}}</td>
+                        <td>{{data.username}}</td>
+                        <td>{{data.Total_sequenced}}</td>
+                        <td>{{data.Sequenced_last_week}}</td>
+                        <td>{{data.Cumulative_sequenced}}</td>
+                        <td>{{data.Uploaded_IGIB_SFTP}}</td>
+                        <td>{{data.Uploaded_NIBMG_DataHub}}</td>
+                        <td>{{data.Uploaded_GISAID}}</td>
+                        <td>{{data.Any_collaboration}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+              </div>
+        <!-- <table class="table table-stiped" style="width:100%">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">data entry</th>
+                    <th scope="col">username</th>
+                    <th scope="col">Total sequenced</th>
+                    <th scope="col">Sequenced last week</th>
+                    <th scope="col">Cumulative sequenced</th>
+                    <th scope="col">Uploaded IGIB SFTP</th>
+                    <th scope="col">Uploaded NIBMG DataHub</th>
+                    <th scope="col">Uploaded GISAID</th>
+                    <th scope="col">Any collaboration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in data %}
+                <tr>
+                    <th scope="row">{{data.id}}</th>
+                    <td>{{data.data_entry}}</td>
+                    <td>{{data.username}}</td>
+                    <td>{{data.Total_sequenced}}</td>
+                    <td>{{data.Sequenced_last_week}}</td>
+                    <td>{{data.Cumulative_sequenced}}</td>
+                    <td>{{data.Uploaded_IGIB_SFTP}}</td>
+                    <td>{{data.Uploaded_NIBMG_DataHub}}</td>
+                    <td>{{data.Uploaded_GISAID}}</td>
+                    <td>{{data.Any_collaboration}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> -->
+    </div></section>
+    <!-- <div style="padding:20px;margin-top:30px;background-color:#1abc9c;height:1500px;">
+        <h1>Fixed Top Navigation Bar</h1>
+        <h2>Scroll this page to see the effect</h2>
+        <h2>The navigation bar will stay at the top of the page while scrolling</h2>
+      
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+      </div>
+       -->
+      <script type="text/javascript">
+        const burgerIcon = document.querySelector('#burger')
+        const navbarMenu = document.querySelector('#nav-links')
+        burgerIcon.addEventListener('click', () => {
+          navbarMenu.classList.toggle('is-active');
+        });
+      </script>
+
+    
+</body>
+
+</html>
+
+

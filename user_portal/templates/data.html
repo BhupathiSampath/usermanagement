@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"> -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data</title>
+    
+</head>
+
+<style>
+    h1 {
+  text-align: center;
+}
+/* td, th {
+  border: 3px solid #999;
+  padding: 1rem;
+}
+td:nth-child(1) { background: hsl(150, 50%, 50%); }
+td:nth-child(2) { background: hsl(160, 60%, 50%); }
+td:nth-child(3) { background: hsl(170, 70%, 50%); }
+td:nth-child(4) { background: hsl(180, 80%, 50%); }
+td:nth-child(5) { background: hsl(190, 90%, 50%); }
+td:nth-child(6) { background: hsl(200, 99%, 50%); }
+td:nth-child(7) { background: hsl(170, 70%, 50%); }
+td:nth-child(8) { background: hsl(180, 80%, 50%); }
+td:nth-child(9) { background: hsl(190, 90%, 50%); }
+td:nth-child(10) { background: hsl(200, 99%, 50%);}
+td:nth-child(11) { background: hsl(300, 70%, 40%); }
+th {
+  background: lightblue;
+  border-color: white;
+} */
+
+input {
+    margin-left:20px;
+    border-radius: 5px;
+}
+
+.box {border:2px solid #03080c;}
+.box h2 {background:#0094ff;color:white;padding:10px;}
+.box p {color:#333;padding:10px;}
+
+/* .container {
+    width: 650px;
+    height:50;
+    /* box-sizing: border-box; */
+    /* top: 50%;
+    left: 50%; */
+/* } */ */
+
+label{
+    position: relative;
+    right: 1px;
+    bottom: 20px;
+}
+</style>
+
+<!-- <body style="background-color: #7e8d75"> -->
+<body>
+    {% if user.is_prouser is True %}
+    <nav class="navbar has-shadow is-green">
+        <a class="navbar-burger" id="burger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </a>
+        
+        <div class="navbar-menu" id="nav-links">
+          <div class="navbar-end">
+            <a class="navbar-item" href="/">Dashboard</a>
+            <a class="navbar-item" href="logout">Logout</a>
+            <a class="navbar-item">About us</a>
+            <a class="navbar-item">About product</a>
+          </div>
+        </div>
+    </nav>
+
+    <h1>Hello, {{user.username}} You are VIP user!</h1></div>
+    <p>Upload your sequenced data here.</p><br>
+    <div class="box">
+    <section class="hero is-success" style="border-radius: 1%;">
+        <div class="hero-body">
+            <form action="upload" method="post">
+                {% csrf_token %}
+                <div class="section">
+                    <div class="container">
+                        <div class="columns is-centered">
+                            <div class="column is-2">
+                                <!-- <div class="column"> -->
+                                    <!-- <label class="label">Username</label> -->
+                                    <input type="hidden" class="input" name="username" value="{{user.id}}" hidden>
+                                    <!-- <div class="control"> -->
+                                        <!-- <label class="lable">UsernameID:</label> -->
+                                        <!-- <input class="input" name="username" value="{{user.id}}" readonly> -->
+                                    <!-- </div> -->
+                                <!-- </div> -->
+                                <div class="column">
+                                    <label>Total sequenced:</label>
+                                    <input class="input" type="number" name="Total_sequenced"  required="required">                                
+                                </div>
+                                <div class="column">
+                                    <label class="lable">Sequenced last week:</label>
+                                    <input class="input" type="number" name="Sequenced_last_week"  required="required">                                
+                                </div>                            
+                        
+                            
+                                <div class="column">
+                                    <label class="lable">Uploaded IGIB SFTP:</label>
+                                    <input class="input" type="number" name="Uploaded_IGIB_SFTP"  required="required">                                
+                                </div>
+                            </div>
+                            <div class="column is-2">
+                                <div class="column">
+                                    <label class="lable">NIBMG DataHub:</label>
+                                    <input class="input" type="number" name="Uploaded_NIBMG_DataHub"  required="required">                                
+                                </div>
+                                <div class="column">
+                                    <label class="lable">Uploaded GISAID:</label>
+                                    <input class="input" type="number" name="Uploaded_GISAID"  required="required">                                
+                                </div>    
+                                <div class="column">
+                                    <label for="lable">Any collaboration:</label>
+                                    <input class="input" id="lable" type="text" name="Any_collaboration"  required="required">                                
+                                </div>
+                                <div class="column">
+                                    <!-- <label for="submit">Submit here:</label> -->
+                                    <!-- <input class="input is-primary" type="submit" value="SUBMIT"> -->
+                                    <!-- <button id="submit" class="button is-link is-rounded" onclick="upload" style="position: absolute; top: 90%;" >Upload</button> -->
+                                        
+                                    <input class="input" type="submit" value="SUBMIT" style="cursor: pointer; background: cyan;">
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>                 
+            </form>
+        </div>
+    </section>
+    </div>
+    <!-- <div class="col-sm-8"> -->
+    <section class="hero">
+        <div class="hero-body">
+            <div class="table-container">
+                <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                  <!-- Your table content -->
+                  <thead  style="background-color: #ac8fd3;"">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">data entry</th>
+                        <th scope="col">username</th>
+                        <th scope="col">Total sequenced</th>
+                        <th scope="col">Sequenced last week</th>
+                        
+                        <th scope="col">Cumulative sequenced</th>
+                       
+                        <th scope="col">Uploaded IGIB SFTP</th>
+                        <th scope="col">Uploaded NIBMG DataHub</th>
+                        <th scope="col">Uploaded GISAID</th>
+                        <th scope="col">Any collaboration</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in data %}
+                    <tr>
+                        <th scope="row">{{data.id}}</th>
+                        <td>{{data.data_entry}}</td>
+                        <td>{{data.username}}</td>
+                        <td>{{data.Total_sequenced}}</td>
+                        <td>{{data.Sequenced_last_week}}</td>
+                        <td>{{data.Cumulative_sequenced}}</td>
+                        <td>{{data.Uploaded_IGIB_SFTP}}</td>
+                        <td>{{data.Uploaded_NIBMG_DataHub}}</td>
+                        <td>{{data.Uploaded_GISAID}}</td>
+                        <td>{{data.Any_collaboration}}</td>
+                        <td>
+    
+                            <div style="width:100px;">
+                                <div style="float: left;width: 10px;padding-left: 1px;"> 
+                                    <form action="{% url 'update' data.id %}" method="">
+                                        {% csrf_token %}
+                                        <input type="submit" value="update" style="cursor: pointer;">
+                                    </form>
+                                </div>
+                                <div style="float: right; width: 100px">
+                            <!-- <div><a type="submit" href="{% url 'update' data.id %}" >Update</a></div> -->
+                                    <form action="{% url 'delete' data.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="submit" value="delete" style="cursor: pointer;">
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+              </div>
+        </div>
+    </section>
+<!-- </div> -->
+    
+    {% else %}
+    <!-- <form action="upgrade" method="post"> -->
+        <!-- {% csrf_token %} -->
+        <nav class="navbar has-shadow is-green">
+            <a class="navbar-burger" id="burger">
+              <span></span>
+              <span></span>
+              <span></span>
+            </a>
+            <div class="navbar-menu" id="nav-links">
+                <h2 class="is-size-3">Hello, {{user.username}}!</h2>
+              <div class="navbar-end">
+                <a class="navbar-item" href="upgrade">Upgrade</a>
+                <a class="navbar-item" href="/">Dashboard</a>
+                <a class="navbar-item" href="logout">Logout</a>
+                <a class="navbar-item">About us</a>
+                <a class="navbar-item">About product</a>
+              </div>
+            </div>
+        </nav>
+        <!-- Logout Here <a href="logout" style="font-size:x-large;">Logout</a>
+        Click here for <a href="/" style="font-size:x-large;">Dashboard</a>
+        Upgrade your account here<a href="upgrade" style="font-size:x-large;">UPGRADE</a>
+        <input type="submit" value="UPGRADE"> -->
+        <h1>Welcome to Account Management system.</h1>
+        <h1>Please upgrade your account to upload your sequenced data.</h1>
+        
+    <!-- </form> -->
+    {% endif %}
+    <script type="text/javascript">
+        const burgerIcon = document.querySelector('#burger')
+        const navbarMenu = document.querySelector('#nav-links')
+        burgerIcon.addEventListener('click', () => {
+          navbarMenu.classList.toggle('is-active');
+        });
+      </script>
+</body>
+</html>

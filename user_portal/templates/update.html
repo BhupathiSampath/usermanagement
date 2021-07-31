@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        
+        <fieldset>
+            <input class="text" type="text" name="username" placeholder="username" value="{{user.id}}" required="">
+            <input class="text" type="number" name="Total_sequenced" placeholder="Total_sequenced" required="">
+            <input class="text" type="number" name="Sequenced_last_week" placeholder="Sequenced_last_week" required="">
+            <input class="text" type="number" name="Uploaded_IGIB_SFTP" placeholder="Uploaded_IGIB_SFTP" required="">
+            <input class="text" type="number" name="Uploaded_NIBMG_DataHub" placeholder="Uploaded_NIBMG_DataHub" required="">
+            <input class="text" type="number" name="Uploaded_GISAID" placeholder="Uploaded_GISAID" required="">
+            <input class="text" type="text" name="Any_collaboration" placeholder="Any_collaboration" required="">
+        </fieldset>
+        <input type="submit" value="UPDATE">
+    </form>
+    
+</body>
+</html>
