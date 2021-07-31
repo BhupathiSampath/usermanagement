@@ -39,9 +39,9 @@ input {
     border-radius: 5px;
 }
 
-.box {border:2px solid #03080c;}
+/* .box {border:2px solid #03080c;}
 .box h2 {background:#0094ff;color:white;padding:10px;}
-.box p {color:#333;padding:10px;}
+.box p {color:#333;padding:10px;} */
 
 /* .container {
     width: 650px;
@@ -79,16 +79,17 @@ label{
     </nav>
 
     <h1>Hello, {{user.username}} You are VIP user!</h1></div>
-    <p>Upload your sequenced data here.</p><br>
+    <p style="color:rgb(6, 6, 7);">Upload your sequenced data here.</p>
     <div class="box">
-    <section class="hero is-success" style="border-radius: 1%;">
-        <div class="hero-body">
+    <!-- <section class="hero is-success" style="border-radius: 1%;"> -->
+        <!-- <div class="hero-body"> -->
+        <!-- <div class="section"> -->
             <form action="upload" method="post">
                 {% csrf_token %}
-                <div class="section">
-                    <div class="container">
-                        <div class="columns is-centered">
-                            <div class="column is-2">
+                <!-- <div class="section"> -->
+                    <!-- <div class="container"> -->
+                        <div class="columns is-centered mb-0">
+                            <div class="column is-4">
                                 <!-- <div class="column"> -->
                                     <!-- <label class="label">Username</label> -->
                                     <input type="hidden" class="input" name="username" value="{{user.id}}" hidden>
@@ -102,44 +103,45 @@ label{
                                     <input class="input" type="number" name="Total_sequenced"  required="required">                                
                                 </div>
                                 <div class="column">
-                                    <label class="lable">Sequenced last week:</label>
+                                    <label class="lable">Last week:</label>
                                     <input class="input" type="number" name="Sequenced_last_week"  required="required">                                
                                 </div>                            
                         
                             
                                 <div class="column">
-                                    <label class="lable">Uploaded IGIB SFTP:</label>
+                                    <label class="lable">IGIB SFTP:</label>
                                     <input class="input" type="number" name="Uploaded_IGIB_SFTP"  required="required">                                
                                 </div>
                             </div>
-                            <div class="column is-2">
+                            <div class="column is-4">
                                 <div class="column">
                                     <label class="lable">NIBMG DataHub:</label>
                                     <input class="input" type="number" name="Uploaded_NIBMG_DataHub"  required="required">                                
                                 </div>
                                 <div class="column">
-                                    <label class="lable">Uploaded GISAID:</label>
+                                    <label class="lable">GISAID:</label>
                                     <input class="input" type="number" name="Uploaded_GISAID"  required="required">                                
                                 </div>    
                                 <div class="column">
                                     <label for="lable">Any collaboration:</label>
                                     <input class="input" id="lable" type="text" name="Any_collaboration"  required="required">                                
                                 </div>
-                                <div class="column">
-                                    <!-- <label for="submit">Submit here:</label> -->
-                                    <!-- <input class="input is-primary" type="submit" value="SUBMIT"> -->
-                                    <!-- <button id="submit" class="button is-link is-rounded" onclick="upload" style="position: absolute; top: 90%;" >Upload</button> -->
-                                        
-                                    <input class="input" type="submit" value="SUBMIT" style="cursor: pointer; background: cyan;">
-                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="column is-4 is-offset-4 mt-0 pt-0">
+                            <div class="column">
+                                <input class="input" type="submit" value="SUBMIT" style="cursor: pointer; background: cyan;">
                             </div>
                         </div>  
-                    </div>
-                </div>                 
+
+                    <!-- </div> -->
+                <!-- </div>                  -->
             </form>
+        <!-- </div> -->
+    <!-- </section> -->
         </div>
-    </section>
-    </div>
     <!-- <div class="col-sm-8"> -->
     <section class="hero">
         <div class="hero-body">
