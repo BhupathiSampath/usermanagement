@@ -1,7 +1,8 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"> -->
+    <link href="{% static 'styles.css'%}" rel="stylesheet" type="text/css" media="all" />
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,59 +10,9 @@
     <title>User Data</title>
     
 </head>
-
-<style>
-    h1 {
-  text-align: center;
-}
-/* td, th {
-  border: 3px solid #999;
-  padding: 1rem;
-}
-td:nth-child(1) { background: hsl(150, 50%, 50%); }
-td:nth-child(2) { background: hsl(160, 60%, 50%); }
-td:nth-child(3) { background: hsl(170, 70%, 50%); }
-td:nth-child(4) { background: hsl(180, 80%, 50%); }
-td:nth-child(5) { background: hsl(190, 90%, 50%); }
-td:nth-child(6) { background: hsl(200, 99%, 50%); }
-td:nth-child(7) { background: hsl(170, 70%, 50%); }
-td:nth-child(8) { background: hsl(180, 80%, 50%); }
-td:nth-child(9) { background: hsl(190, 90%, 50%); }
-td:nth-child(10) { background: hsl(200, 99%, 50%);}
-td:nth-child(11) { background: hsl(300, 70%, 40%); }
-th {
-  background: lightblue;
-  border-color: white;
-} */
-
-input {
-    margin-left:20px;
-    border-radius: 5px;
-}
-
-/* .box {border:2px solid #03080c;}
-.box h2 {background:#0094ff;color:white;padding:10px;}
-.box p {color:#333;padding:10px;} */
-
-/* .container {
-    width: 650px;
-    height:50;
-    /* box-sizing: border-box; */
-    /* top: 50%;
-    left: 50%; */
-/* } */ */
-
-label{
-    position: relative;
-    right: 1px;
-    bottom: 20px;
-}
-</style>
-
-<!-- <body style="background-color: #7e8d75"> -->
 <body>
     {% if user.is_prouser is True %}
-    <nav class="navbar has-shadow is-green">
+    <nav class="navbar has-shadow is-dark">
         <a class="navbar-burger" id="burger">
           <span></span>
           <span></span>
@@ -72,32 +23,19 @@ label{
           <div class="navbar-end">
             <a class="navbar-item" href="/">Dashboard</a>
             <a class="navbar-item" href="logout">Logout</a>
-            <a class="navbar-item">About us</a>
-            <a class="navbar-item">About product</a>
+            <!-- <a class="navbar-item">About us</a>
+            <a class="navbar-item">About product</a> -->
           </div>
         </div>
     </nav>
 
-    <h1>Hello, {{user.username}} You are VIP user!</h1></div>
-    <p style="color:rgb(6, 6, 7);">Upload your sequenced data here.</p>
+    <h1>Upload your sequenced data here.</h1></div>
     <div class="box">
-    <!-- <section class="hero is-success" style="border-radius: 1%;"> -->
-        <!-- <div class="hero-body"> -->
-        <!-- <div class="section"> -->
             <form action="upload" method="post">
                 {% csrf_token %}
-                <!-- <div class="section"> -->
-                    <!-- <div class="container"> -->
                         <div class="columns is-centered mb-0">
                             <div class="column is-4">
-                                <!-- <div class="column"> -->
-                                    <!-- <label class="label">Username</label> -->
                                     <input type="hidden" class="input" name="username" value="{{user.id}}" hidden>
-                                    <!-- <div class="control"> -->
-                                        <!-- <label class="lable">UsernameID:</label> -->
-                                        <!-- <input class="input" name="username" value="{{user.id}}" readonly> -->
-                                    <!-- </div> -->
-                                <!-- </div> -->
                                 <div class="column">
                                     <label>Total sequenced:</label>
                                     <input class="input" type="number" name="Total_sequenced"  required="required">                                
@@ -132,83 +70,71 @@ label{
 
                         <div class="column is-4 is-offset-4 mt-0 pt-0">
                             <div class="column">
-                                <input class="input" type="submit" value="SUBMIT" style="cursor: pointer; background: cyan;">
+                                <button class="button is-fullwidth  is-primary">Submit</button>
                             </div>
                         </div>  
-
-                    <!-- </div> -->
-                <!-- </div>                  -->
             </form>
-        <!-- </div> -->
-    <!-- </section> -->
         </div>
-    <!-- <div class="col-sm-8"> -->
-    <section class="hero">
-        <div class="hero-body">
-            <div class="table-container">
-                <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-                  <!-- Your table content -->
-                  <thead  style="background-color: #ac8fd3;"">
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">data entry</th>
-                        <th scope="col">username</th>
-                        <th scope="col">Total sequenced</th>
-                        <th scope="col">Sequenced last week</th>
-                        
-                        <th scope="col">Cumulative sequenced</th>
-                       
-                        <th scope="col">Uploaded IGIB SFTP</th>
-                        <th scope="col">Uploaded NIBMG DataHub</th>
-                        <th scope="col">Uploaded GISAID</th>
-                        <th scope="col">Any collaboration</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for data in data %}
-                    <tr>
-                        <th scope="row">{{data.id}}</th>
-                        <td>{{data.data_entry}}</td>
-                        <td>{{data.username}}</td>
-                        <td>{{data.Total_sequenced}}</td>
-                        <td>{{data.Sequenced_last_week}}</td>
-                        <td>{{data.Cumulative_sequenced}}</td>
-                        <td>{{data.Uploaded_IGIB_SFTP}}</td>
-                        <td>{{data.Uploaded_NIBMG_DataHub}}</td>
-                        <td>{{data.Uploaded_GISAID}}</td>
-                        <td>{{data.Any_collaboration}}</td>
-                        <td>
-    
-                            <div style="width:100px;">
-                                <div style="float: left;width: 10px;padding-left: 1px;"> 
-                                    <form action="{% url 'update' data.id %}" method="">
-                                        {% csrf_token %}
-                                        <input type="submit" value="update" style="cursor: pointer;">
-                                    </form>
+        <section class="hero">
+            <div class="hero-body">
+                <div class="table-container">
+                    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                      <thead id="head">
+                        <tr>
+                          <th rowspan="2">ID</th>
+                          <th rowspan="2">Date</th>
+                          <!-- <th rowspan="2">Username</th> -->
+                          <th rowspan="2">Total sequenced</th>
+                          <th rowspan="2">Sequenced last week</th>
+                          
+                          <th rowspan="2">Cumulative sequenced</th>
+                          <th colspan="3">Uploaded</th>
+                          <th rowspan="2">Any collaboration</th>
+                          <th rowspan="2">Action</th>
+                        </tr>
+                        <tr>
+                            <th>IGIB SFTP</th>
+                            <th>NIBMG DataHub</th>
+                            <th>GISAID</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in data %}
+                        <tr>
+                            <th scope="row">{{data.id}}</th>
+                            <td>{{data.data_entry}}</td>
+                            <!-- <td>{{data.username}}</td> -->
+                            <td>{{data.Total_sequenced}}</td>
+                            <td>{{data.Sequenced_last_week}}</td>
+                            <td>{{data.Cumulative_sequenced}}</td>
+                            <td>{{data.Uploaded_IGIB_SFTP}}</td>
+                            <td>{{data.Uploaded_NIBMG_DataHub}}</td>
+                            <td>{{data.Uploaded_GISAID}}</td>
+                            <td>{{data.Any_collaboration}}</td>
+                            <td>
+        
+                                <div style="width:100px;">
+                                        <form action="{% url 'update' data.id %}" method="">
+                                            {% csrf_token %}
+                                            <input id="pointer" type="submit" value="update">
+                                        </form>
+                                        <form action="{% url 'delete' data.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <input id="pointer" type="submit" value="delete"
+                                            style="background-color: crimson; font:bold;">
+                                        </form>
                                 </div>
-                                <div style="float: right; width: 100px">
-                            <!-- <div><a type="submit" href="{% url 'update' data.id %}" >Update</a></div> -->
-                                    <form action="{% url 'delete' data.id %}" method="POST">
-                                        {% csrf_token %}
-                                        <input type="submit" value="delete" style="cursor: pointer;">
-                                    </form>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
-              </div>
         </div>
     </section>
-<!-- </div> -->
     
     {% else %}
-    <!-- <form action="upgrade" method="post"> -->
-        <!-- {% csrf_token %} -->
-        <nav class="navbar has-shadow is-green">
+        <nav class="navbar has-shadow is-dark">
             <a class="navbar-burger" id="burger">
               <span></span>
               <span></span>
@@ -220,15 +146,11 @@ label{
                 <a class="navbar-item" href="upgrade">Upgrade</a>
                 <a class="navbar-item" href="/">Dashboard</a>
                 <a class="navbar-item" href="logout">Logout</a>
-                <a class="navbar-item">About us</a>
-                <a class="navbar-item">About product</a>
+                <!-- <a class="navbar-item">About us</a>
+                <a class="navbar-item">About product</a> -->
               </div>
             </div>
         </nav>
-        <!-- Logout Here <a href="logout" style="font-size:x-large;">Logout</a>
-        Click here for <a href="/" style="font-size:x-large;">Dashboard</a>
-        Upgrade your account here<a href="upgrade" style="font-size:x-large;">UPGRADE</a>
-        <input type="submit" value="UPGRADE"> -->
         <h1>Welcome to Account Management system.</h1>
         <h1>Please upgrade your account to upload your sequenced data.</h1>
         

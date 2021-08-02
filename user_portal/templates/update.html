@@ -1,70 +1,68 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'styles.css'%}" rel="stylesheet" type="text/css" media="all" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <title>Update</title>
 </head>
 <body>
-    <section class="hero" style="border-radius: 1%;">
-        <div class="hero-body">
-            <form action="" method="post">
-                {% csrf_token %}
-                <div class="section">
-                    <div class="container">
-                        <div class="columns is-centered">
-                            <div class="column is-2">
-                                <!-- <div class="column"> -->
-                                    <!-- <label class="label">Username</label> -->
-                                    <input type="hidden" class="input" name="username" value="{{user.id}}" hidden>
-                                    <!-- <div class="control"> -->
-                                        <!-- <label class="lable">UsernameID:</label> -->
-                                        <!-- <input class="input" name="username" value="{{user.id}}" readonly> -->
-                                    <!-- </div> -->
-                                <!-- </div> -->
-                                <div class="column">
-                                    <label>Total sequenced:</label>
-                                    <input class="input" type="number" name="Total_sequenced"  required="required">                                
-                                </div>
-                                <div class="column">
-                                    <label class="lable">Last week:</label>
-                                    <input class="input" type="number" name="Sequenced_last_week"  required="required">                                
-                                </div>                            
-                        
+    <h1><b>Update your data here</b></h1>
+    <div style="width:100px;">
+        <form action="{% url 'Home' %}" method="">
+            {% csrf_token %}
+            <button  style="left: 10px"class="button is-fullwidth  is-danger">Back</button>
+        </form>
+    </div>
+    <div class="box">
+        
+                <form action="" method="post">
+                    {% csrf_token %}
+                            <div class="columns is-centered mb-0">
+                                <div class="column is-4">
+                                        <input type="hidden" class="input" name="username" value="{{user.id}}" hidden>
+                                    <div class="column">
+                                        <label>Total sequenced:</label>
+                                        <input class="input" type="number" name="Total_sequenced"  required="required">                                
+                                    </div>
+                                    <div class="column">
+                                        <label class="lable">Last week:</label>
+                                        <input class="input" type="number" name="Sequenced_last_week"  required="required">                                
+                                    </div>                            
                             
-                                <div class="column">
-                                    <label class="lable">IGIB SFTP:</label>
-                                    <input class="input" type="number" name="Uploaded_IGIB_SFTP"  required="required">                                
+                                
+                                    <div class="column">
+                                        <label class="lable">IGIB SFTP:</label>
+                                        <input class="input" type="number" name="Uploaded_IGIB_SFTP"  required="required">                                
+                                    </div>
+                                </div>
+                                <div class="column is-4">
+                                    <div class="column">
+                                        <label class="lable">NIBMG DataHub:</label>
+                                        <input class="input" type="number" name="Uploaded_NIBMG_DataHub"  required="required">                                
+                                    </div>
+                                    <div class="column">
+                                        <label class="lable">GISAID:</label>
+                                        <input class="input" type="number" name="Uploaded_GISAID"  required="required">                                
+                                    </div>    
+                                    <div class="column">
+                                        <label for="lable">Any collaboration:</label>
+                                        <input class="input" id="lable" type="text" name="Any_collaboration"  required="required">                                
+                                    </div>
+    
                                 </div>
                             </div>
-                            <div class="column is-2">
+    
+                            <div class="column is-4 is-offset-4 mt-0 pt-0">
                                 <div class="column">
-                                    <label class="lable">NIBMG DataHub:</label>
-                                    <input class="input" type="number" name="Uploaded_NIBMG_DataHub"  required="required">                                
-                                </div>
-                                <div class="column">
-                                    <label class="lable">GISAID:</label>
-                                    <input class="input" type="number" name="Uploaded_GISAID"  required="required">                                
-                                </div>    
-                                <div class="column">
-                                    <label for="lable">Any collaboration:</label>
-                                    <input class="input" id="lable" type="text" name="Any_collaboration"  required="required">                                
-                                </div>
-                                <div class="column">
-                                    <!-- <label for="submit">Submit here:</label> -->
-                                    <!-- <input class="input is-primary" type="submit" value="SUBMIT"> -->
-                                    <!-- <button id="submit" class="button is-link is-rounded" onclick="upload" style="position: absolute; top: 90%;" >Upload</button> -->
-                                        
-                                    <input class="input" type="submit" value="Update" style="cursor: pointer; background: cyan;">
+                                    <button class="button is-fullwidth  is-primary">Update</button>
                                 </div>
                             </div>
-                        </div>  
-                    </div>
-                </div>                 
-            </form>
-        </div>
-    </section>
+                            </div>  
+                </form>
+            </div>
 </body>
 </html>
