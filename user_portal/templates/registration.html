@@ -36,18 +36,18 @@
 				<label class="label">Password</label>
 				<div class="control">
 					<input class="input" id="id_password" type="password" name="password1" placeholder="Password"  required="required">
-					<i class="far fa-eye" id="togglePassword" ></i>
+					<i class="far fa-eye-slash" id="togglePassword" ></i>
 				</div>
 				</div>
 				<div class="field">
 					<label class="label">Confirm Password</label>
 					<div class="control">
 						<input class="input" id="is_password" type="password" name="password2" placeholder="Confirm Password" placeholder="********"  required="required">
-						<i class="far fa-eye" id="togglePassword1" ></i>
+						<i class="far fa-eye-slash" id="togglePassword1" ></i>
 					</div>
 				</div>
 				<div class="column is-fullwidth"><button class="button is-primary is-fullwidth">SIGNUP</button></div>
-				<div>Already hve an account? <a href="login">Login here</a></div>
+				<div>Already have an account? <a href="login">Login here</a></div>
 			</form>
 		</div>
 	</div>
@@ -58,22 +58,24 @@
 		togglePassword.addEventListener('click', function (e) {
 			// toggle the type attribute
 			const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+			const icon = type == 'password' ? 'far fa-eye-slash' : 'far fa-eye'
 			password.setAttribute('type', type);
 			// toggle the eye slash icon
-			this.classList.toggle('fa-eye-slash');
+			togglePassword.className = icon
 });
 	</script>
 
 <script>
-	const togglePassword1 = document.querySelector('#togglePassword1');
-	  const password1 = document.querySelector('#is_password');
-
-	togglePassword1.addEventListener('click', function (e) {
-		// toggle the type attribute
-		const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
-		password1.setAttribute('type', type);
-		// toggle the eye slash icon
-		this.classList.toggle('fa-eye-slash');
+		const togglePassword1 = document.querySelector('#togglePassword1');
+  		const password1 = document.querySelector('#is_password');
+ 
+		togglePassword1.addEventListener('click', function (e) {
+			// toggle the type attribute
+			const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+			const icon = type == 'password' ? 'far fa-eye-slash' : 'far fa-eye'
+			password1.setAttribute('type', type);
+			// toggle the eye slash icon
+			togglePassword1.className = icon
 });
 </script>
 

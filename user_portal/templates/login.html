@@ -31,7 +31,7 @@
 				
 				<div class="control">
 					<input class="input" id="id_password" type="password" name="password" placeholder="********"  required="required">
-					<i class="far fa-eye" id="togglePassword" ></i>
+					<i class="far fa-eye-slash" id="togglePassword" ></i>
 				</div>
 				</div>
 				<div class="column is-fullwidth"><button class="button is-primary is-fullwidth">Sign in</button></div>
@@ -39,7 +39,7 @@
 			</form>
 		</div>
 	<!-- </section> -->
-	<script>
+	<!-- <script>
 		const togglePassword = document.querySelector('#togglePassword');
   		const password = document.querySelector('#id_password');
  
@@ -50,6 +50,20 @@
 			// toggle the eye slash icon
 			this.classList.toggle('fa-eye-slash');
 });
-	</script>
+	</script> -->
+		<script>
+			const togglePassword = document.querySelector('#togglePassword');
+			  const password = document.querySelector('#id_password');
+	 
+			togglePassword.addEventListener('click', function (e) {
+				// toggle the type attribute
+				const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+				const icon = type == 'password' ? 'far fa-eye-slash' : 'far fa-eye'
+				password.setAttribute('type', type);
+				// toggle the eye slash icon
+				togglePassword.className = icon
+				// this.classList.toggle('fa-eye-slash');
+	});
+		</script>
 </body>
 </html>
