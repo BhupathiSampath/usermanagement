@@ -3,7 +3,6 @@ from django.contrib.auth.models import User, auth
 from django.forms import fields,ModelForm
 from .models import Account, InputData
 from django.contrib.auth.forms import UserCreationForm
-
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=60, help_text='Required. Add a valide email address')
 
