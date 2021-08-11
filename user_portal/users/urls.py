@@ -4,24 +4,11 @@ from . import views
 from .views import *
 # from .views import LoginAPI
 
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
-
-
 urlpatterns = [
-
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-
-
-
-
     path('',views.hello, name='hello'),
-    # path('register',views.register, name='register'),
-    # path('login', views.login, name='login'),
-    # path('logout', views.logout, name='logout'),
+    path('register',views.register, name='register'),
+    path('login', views.login, name='login'),
+    path('logout', views.logout, name='logout'),
     path('Home', views.Home, name='Home'),
     path('upgrade', views.upgrade, name='upgrade'),
     path('upload',views.upload, name='upload'),

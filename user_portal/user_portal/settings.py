@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from re import DEBUG
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +21,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'zz21g9hcc5jr7-i6!!0@)(3_z(c3fx(7d0+@yreybd7qpz&2jn'
-
+# SECRET_KEY = 'zz21g9hcc5jr7-i6!!0@)(3_z(c3fx(7d0+@yreybd7qpz&2jn'
+with open(os.path.join(BASE_DIR, 'secret_key.txt')) as f:
+    SECRET_KEY = f.read().strip()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'sampath.user.com']
 AUTH_USER_MODEL = "users.Account"
 
 # Application definition
@@ -52,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+X_FRAME_OPTIONS = 'DENY'
 
 ROOT_URLCONF = 'user_portal.urls'
 
@@ -127,6 +132,21 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR,'assets')
 
+# HTTPS Settings
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_SECURE = True
+
+# HSTS Settings
+
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_SSL_REDIRECT = False
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -135,35 +155,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-# REST_FRAMEWORK = {
-#    'DEFAULT_AUTHENTICATION_CLASSES': (
-#        'rest_framework.authentication.TokenAuthentication',
-#    ),
-#    'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'rest_framework.authentication.TokenAuthentication',
-#         'rest_framework.authentication.SessionAuthentication',
-#         # 'rest_framework.permissions.IsAdminUser',
-#         # 'rest_framework.permissions.IsAuthenticated',
-#     ),
-# }
-
-
-# REST_FRAMEWORK = {
-#     'DEFAULT_FILTER_BACKENDS': [
-#         'django_filters.rest_framework.DjangoFilterBackend'
-#     ],
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     ],
-# }
-
-
-# from datetime import timedelta
-
-# SIMPLE_JWT = {
-#     'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
-#     'ROTATE_REFRESH_TOKENS': True,
-# }
 
 
 REST_FRAMEWORK = {
@@ -173,6 +164,9 @@ REST_FRAMEWORK = {
          ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
      'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
      )
 }
 
@@ -198,10 +192,13 @@ JWT_AUTH = {
   'JWT_VERIFY_EXPIRATION': True,
   'JWT_LEEWAY': 0,
   'JWT_EXPIRATION_DELTA': timedelta(days=30),
+#   'JWT_EXPIRATION_DELTA': time5delta(minutes=1),
   'JWT_AUDIENCE': None,
   'JWT_ISSUER': None,
   'JWT_ALLOW_REFRESH': False,
   'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30),
-  'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-  'JWT_AUTH_COOKIE': None,
+#   'JWT_EXPIRATION_DELTA': timedelta(minutes=1),
+  'JWT_AUTH_HEADER_PREFIX': '',
+  'JWT_AUTH_COOKIE': 'c_uid',
 }
+

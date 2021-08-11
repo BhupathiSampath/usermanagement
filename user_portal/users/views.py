@@ -17,9 +17,9 @@ from rest_framework import generics
 from rest_framework import permissions
 from .models import Account, InputData
 from .form import MyForm,RegistrationForm,UploadData
-
+from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, UpdateAPIView,RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView,RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from .serializers import homeserializer, inputserializers,UserSerializer,SequencedSerializer, UpgradeSerializer,UserLoginSerializer
@@ -38,16 +38,25 @@ class UserLoginView(RetrieveAPIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        response = {
-            'success' : 'True',
-            'status code' : status.HTTP_200_OK,
-            'message': 'User logged in  successfully',
-            'token' : serializer.data['token'],
+        if serializer.is_valid(raise_exception=True):
+            token = serializer.data['token']
+            response = {
+                'success' : 'True',
+                'status code' : status.HTTP_200_OK,
+                'message': 'User logged in  successfully',
+                'token' : serializer.data['token'],
+                }
+            response = Response()
+            response.set_cookie(key='c_uid', value=token,httponly=True,)
+            print(token)
+            response.data = {
+                # 'success' : 'True',
+                # 'status code' : status.HTTP_200_OK,
+                'message': 'User logged in  successfully',
+                # 'token' : serializer.data['token'],
             }
-        status_code = status.HTTP_200_OK
-
-        return Response(response, status=status_code)
+            return response
+        return Response(serializer.errors)
 
 class dashboardview(APIView):
     permission_classes = (IsAuthenticated,)
@@ -78,7 +87,7 @@ class SequencedUpdate(APIView):
         if serializer.is_valid():
             serializer.save()
         return Response({"Message":"Successfully updated"})
-
+ 
 class SequenceUpload(APIView):
     permission_classes = (IsAuthenticated,)
     authentication_class = JSONWebTokenAuthentication
@@ -88,38 +97,42 @@ class SequenceUpload(APIView):
         serializer.save()
         return Response(serializer.data)
 
-class registerview(APIView):
+class registerview(CreateAPIView):
+    # serializer_class = UserSerializer
+    permission_classes = (AllowAny,)
     def post(self,request):
         serializer = UserSerializer(data =request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            response =Response()
+            response.data ={"message":"sssss"}
 
+# class loginview(APIView):
+#     def post(self, request):
+#         email = request.data['email']
+#         password = request.data['password']
 
-class loginview(APIView):
-    def post(self, request):
-        email = request.data['email']
-        password = request.data['password']
+#         user = Account.objects.filter(email=email).first()
 
-        user = Account.objects.filter(email=email).first()
+#         if user is None:
+#             raise AuthenticationFailed('User not found')
+#         if not user.check_password(password):
+#             raise AuthenticationFailed('Invalid password')
+#         payload = {
+#             'id': user.id,
+#             'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=60),
+#             'iat': datetime.datetime.utcnow()
+#         }
+#         token = jwt.encode(payload, 'secret', algorithm='HS256').decode('utf-8')
 
-        if user is None:
-            raise AuthenticationFailed('User not found')
-        if not user.check_password(password):
-            raise AuthenticationFailed('Invalid password')
-        payload = {
-            'id': user.id,
-            'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=60),
-            'iat': datetime.datetime.utcnow()
-        }
-        token = jwt.encode(payload, 'secret', algorithm='HS256').decode('utf-8')
-
-        response = Response()
-        response.set_cookie(key='jwt', value=token,httponly=True)
-        response.data = {
-            'Message': "Logged in successfully"
-        }
-        return response
+#         response = Response()
+#         response.set_cookie(key='jwt', value=token,httponly=True)
+#         response.data = {
+#             'Message': "Logged in successfully"
+#         }
+#         return response
 
 class userview(RetrieveAPIView):
 
@@ -128,7 +141,7 @@ class userview(RetrieveAPIView):
 
     def get(self, request):
         try:
-            account = Account.objects.get(user=request.user)
+            account = Account.objects.get(username=request.user)
             status_code = status.HTTP_200_OK
             response = {
                 'success': 'true',
@@ -157,7 +170,7 @@ class logoutview(APIView):
         response = Response()
         response.delete_cookie('jwt')
         response.data ={
-            "message": "Success"
+            "message": "Logged out successfully"
         }
         return response
 
@@ -171,8 +184,6 @@ class homeview(APIView):
         print(request.user)
         serializer = inputserializers(data, many =True)
         return Response(serializer.data)
-        print(data[0].Total_sequenced)
-        # return Response(data[0].Total_sequenced)
 
 
 
@@ -296,3 +307,6 @@ def delete(request, id):
         pi.delete()
         return HttpResponsePermanentRedirect('/Home')
         
+
+
+
