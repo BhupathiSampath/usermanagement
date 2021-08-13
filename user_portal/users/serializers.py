@@ -3,6 +3,7 @@ from django.db.models import fields
 from django.http import response
 from django.http.response import JsonResponse
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from rest_framework.fields import ReadOnlyField
 from rest_framework.response import Response
 from . models import Account, InputData
@@ -14,6 +15,13 @@ class inputserializers(serializers.ModelSerializer):
         model = InputData
         fields = '__all__'
 
+class UserDuplicateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = [
+            'username',
+            'email',
+        ]
 
 class UserSerializer(serializers.ModelSerializer):
     # password1 =serializers.CharField(label='Confirm Password', write_only=True)
@@ -39,10 +47,29 @@ class UserSerializer(serializers.ModelSerializer):
     #     if password != password1:
     #         raise serializers.ValidationError('Passwords must match')
     #     return value
-
+    # def validate_username(self, value):
+    #     data = self.get_initial()
+    #     username = data.get("username")
+    #     username_qs = Account.objects.filter(username=username)
+    #     if username_qs.exists():
+    #         duplicate_obj = Account.objects.get(username=username)
+    #         serializer = UserDuplicateSerializer(duplicate_obj)
+    #         raise ValidationError(format(serializer.data))
+    #     else:
+    #         pass
+    #     return value
     def create(self, validated_data):
         password = validated_data.pop('password',None)
+        # if request.method=='POST':
+        # username=validated_data['username'],
+        # email=validated_data['email'],
         instance = self.Meta.model(**validated_data)
+        # if Account.objects.filter(username=username).exists():
+        #     err = ValidationError({"message":"already existed"})
+        #     raise ValidationError(format(err.data))
+        # elif Account.objects.filter(email=email).exists():
+        #     print(({"message":"Email is already exists"}))
+        #     return Response({"message":"Email is already exists"})
         if password is not None:
             instance.set_password(password)
         instance.save()
@@ -78,12 +105,6 @@ from django.contrib import messages
 
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
 JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
-from rest_framework.exceptions import APIException
-
-class ServiceUnavailable(APIException):
-    status_code = 503
-    default_detail = {"message":"A user with this email and password is not not valid."}
-    default_code = 'service_unavailable'
 
 class UserLoginSerializer(serializers.Serializer):
 
@@ -92,13 +113,15 @@ class UserLoginSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=255, read_only=True)
 
     def validate(self, data):
+        print(data)
+        # raise serializers.ValidationError({"message":"Invalid credentials"})
+        
         email = data.get("email", None)
         password = data.get("password", None)
         user = authenticate(email=email, password=password)
         if user is None:
             # self.fail("A user with this email and password is not not valid.")
-            raise serializers.ValidationError({"message":"Invalid credentials"}
-            )
+            raise serializers.ValidationError({"message":"Invalid credentials"})
         try:
             payload = JWT_PAYLOAD_HANDLER(user)
             jwt_token = JWT_ENCODE_HANDLER(payload)

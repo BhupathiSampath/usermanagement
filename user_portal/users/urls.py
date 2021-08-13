@@ -1,4 +1,3 @@
-from functools import update_wrapper
 from django.urls import path
 from . import views
 from .views import *
@@ -15,6 +14,7 @@ urlpatterns = [
     path('delete/<int:id>/', views.delete, name='delete'),
     path('<int:id>/', views.updatedata, name='update'),
 
+# ________________________________________Rest_APIs_________________________________________
 
     path('registerview', registerview.as_view(), name='registerview'),
     path('loginview', UserLoginView.as_view(), name='loginview'),

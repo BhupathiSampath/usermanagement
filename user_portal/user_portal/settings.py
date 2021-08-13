@@ -28,7 +28,7 @@ with open(os.path.join(BASE_DIR, 'secret_key.txt')) as f:
 DEBUG = True
 # DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'sampath.user.com']
+ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = "users.Account"
 
 # Application definition
@@ -165,7 +165,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
      'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
      )
 }
@@ -192,12 +192,12 @@ JWT_AUTH = {
   'JWT_VERIFY_EXPIRATION': True,
   'JWT_LEEWAY': 0,
   'JWT_EXPIRATION_DELTA': timedelta(days=30),
-#   'JWT_EXPIRATION_DELTA': time5delta(minutes=1),
+#   'JWT_EXPIRATION_DELTA': timedelta(minutes=0.5),
   'JWT_AUDIENCE': None,
   'JWT_ISSUER': None,
   'JWT_ALLOW_REFRESH': False,
   'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30),
-#   'JWT_EXPIRATION_DELTA': timedelta(minutes=1),
+#   'JWT_EXPIRATION_DELTA': timedelta(minutes=0.5),
   'JWT_AUTH_HEADER_PREFIX': '',
   'JWT_AUTH_COOKIE': 'c_uid',
 }
