@@ -37,7 +37,7 @@ class UserLoginView(RetrieveAPIView):
     serializer_class = UserLoginSerializer
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.get_serializer(data=request.data)
     
         # if request.user.is_authenticated:
             
@@ -52,8 +52,8 @@ class UserLoginView(RetrieveAPIView):
                 }
             response = Response()
             response.set_cookie(key='c_uid', value=token,httponly=True,)
-            print(serializer.errors)
-            print(dir(serializer.errors))
+            # print(serializer.errors)
+            # print(dir(serializer.errors))
             response.data = {
                 # 'success' : 'True',
                 # 'status code' : status.HTTP_200_OK,
@@ -62,13 +62,16 @@ class UserLoginView(RetrieveAPIView):
             }
             return response
         else:
-            print(dir(serializer))
-            return Response(serializer._errors)
+            print(serializer.errors)
+
+            return Response(serializer.errors)
             # raise serializer.errors
 
 class dashboardview(RetrieveAPIView):
     # permission_classes = (IsAuthenticated,)
-    authentication_class = JSONWebTokenAuthentication
+    # authentication_class = JSONWebTokenAuthentication
+    permission_classes = (AllowAny,)
+
     def get(self, request):
         QuerySet = InputData.objects.filter(data_entry__in=InputData.objects.values('username').annotate(Max('data_entry')).values_list('data_entry__max'))
         serializer = inputserializers(QuerySet, many =True)
@@ -77,6 +80,7 @@ class dashboardview(RetrieveAPIView):
 class UpgradeAccount(APIView):
     permission_classes = (IsAuthenticated,)
     authentication_class = JSONWebTokenAuthentication
+    serializer_class = UpgradeSerializer
     def post(self,request,pk):
         det = Account.objects.get(id=pk)
         serializer = UpgradeSerializer(instance=det, data=request.data)
@@ -111,29 +115,30 @@ class SequenceUpload(APIView):
             return Response(serializer.data)
 
 class registerview(CreateAPIView):
-    # serializer_class = UserSerializer
+    serializer_class = UserSerializer
     permission_classes = (AllowAny,)
     def post(self,request):
-        if request.user.is_authenticated:
-            return Response({"message":"User is already registered"})
-        if request.method=='POST':
-            username=request.POST['username']
-            email=request.POST['email']
-            # password=request.POST['password']
-            if Account.objects.filter(username=username).exists():
-                return Response({"message":"Username is already exists"})
-            elif Account.objects.filter(email=email).exists():
-                return Response({"message":"Email is already exists"})
-            # elif len(password)<4:
-            #     return Response({"message":"password should > 4 charecters"})
-            else:
-                serializer = UserSerializer(data=request.data)
-                # print(serializer)
-                serializer.is_valid(raise_exception=False)
-                serializer.save()
-                
-                return Response({"message":"successfully registerd",
-                "data":serializer.data})
+        # if request.user.is_authenticated:
+        #     return Response({"message":"User is already registered"})
+        # if request.method=='POST':
+        #     username=request.POST['username']
+        #     email=request.POST['email']
+        #     # password=request.POST['password']
+        #     if Account.objects.filter(username=username).exists():
+        #         return Response({"message":"Username is already exists"})
+        #     elif Account.objects.filter(email=email).exists():
+        #         return Response({"message":"Email is already exists"})
+        #     # elif len(password)<4:
+        #     #     return Response({"message":"password should > 4 charecters"})
+        #     else:
+        serializer = self.get_serializer(data=request.data)
+        # print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message":"successfully registerd",
+            "data":serializer.data})
+        else:
+            return Response(serializer.errors)
 
 # class loginview(APIView):
 #     def post(self, request):

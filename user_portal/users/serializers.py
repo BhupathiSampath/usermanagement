@@ -1,3 +1,4 @@
+# from typing_extensions import Required
 from django.db import models
 from django.db.models import fields
 from django.http import response
@@ -6,6 +7,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.fields import ReadOnlyField
 from rest_framework.response import Response
+from rest_framework.validators import UniqueValidator
 from . models import Account, InputData
 
 
@@ -23,65 +25,53 @@ class UserDuplicateSerializer(serializers.ModelSerializer):
             'email',
         ]
 
+
 class UserSerializer(serializers.ModelSerializer):
-    # password1 =serializers.CharField(label='Confirm Password', write_only=True)
+    email = serializers.EmailField(required=True)
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(write_only=True, required=True)
+    password2 = serializers.CharField(write_only=True, required=True)
+
     class Meta:
         model = Account
-        fields = ["id","username","email","password",]
-        extra_kwargs = {
-            'password' : {'write_only': True},
-            # 'password1': {'write_only': True},
-        }
-    # def validate_password(self, value):
-    #     data = self.get_initial()
-    #     password = data.get('password1')
-    #     password1 = value
-    #     if password != password1:
-    #         raise serializers.ValidationError('Passwords must match')
-    #     return value
+        fields = ('id','username', 'password', 'password2', 'email',)
+        
+    def validate(self, value):
+        data = self.get_initial()
+        username = data.get('username')
+        email = data.get('email')
+        if self.context.get('request').user.is_authenticated:
+            raise serializers.ValidationError({"message":"already authenticated"})
+        if self.context.get('request').user.is_authenticated:
+            raise serializers.ValidationError({"message":"already authenticated"})
+        if Account.objects.filter(username=username).exists():
+            raise serializers.ValidationError({"message":"username is already existed"})
+        if Account.objects.filter(email=email).exists():
+            raise serializers.ValidationError({"message":"email is already existed"})
+        if value['password'] != value['password2']:
+            raise serializers.ValidationError({"password": "Password fields didn't match."})
 
-    # def validate_password2(self, value):
-    #     data = self.get_initial()
-    #     password = data.get('password')
-    #     password1 = value
-    #     if password != password1:
-    #         raise serializers.ValidationError('Passwords must match')
-    #     return value
-    # def validate_username(self, value):
-    #     data = self.get_initial()
-    #     username = data.get("username")
-    #     username_qs = Account.objects.filter(username=username)
-    #     if username_qs.exists():
-    #         duplicate_obj = Account.objects.get(username=username)
-    #         serializer = UserDuplicateSerializer(duplicate_obj)
-    #         raise ValidationError(format(serializer.data))
-    #     else:
-    #         pass
-    #     return value
+        return value
+
     def create(self, validated_data):
-        password = validated_data.pop('password',None)
-        # if request.method=='POST':
-        # username=validated_data['username'],
-        # email=validated_data['email'],
-        instance = self.Meta.model(**validated_data)
-        # if Account.objects.filter(username=username).exists():
-        #     err = ValidationError({"message":"already existed"})
-        #     raise ValidationError(format(err.data))
-        # elif Account.objects.filter(email=email).exists():
-        #     print(({"message":"Email is already exists"}))
-        #     return Response({"message":"Email is already exists"})
-        if password is not None:
-            instance.set_password(password)
-        instance.save()
-        return instance
+        user = Account.objects.create(
+            username=validated_data['username'],
+            email=validated_data['email'],
+        )
+        user.set_password(validated_data['password'])
+        user.save()
 
+        return user
 
 class UpgradeSerializer(serializers.ModelSerializer):
+    # is_prouser          = models.BooleanField()
     class Meta:
         model = Account
         fields = ["is_prouser"]
-
-
+    # def validate(self, value):
+    #     print(self.context.get('data'))
+    #         # raise serializers.ValidationError({"message":"already authenticated"})
+    #     return value
 class SequencedSerializer(serializers.ModelSerializer):
     class Meta:
         model = InputData
@@ -93,7 +83,7 @@ class homeserializer(serializers.ModelSerializer):
     class Meta:
         model = InputData
         fields = ("id","data")
-
+    
 
 
 
@@ -113,14 +103,13 @@ class UserLoginSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=255, read_only=True)
 
     def validate(self, data):
-        print(data)
-        # raise serializers.ValidationError({"message":"Invalid credentials"})
+        if self.context.get('request').user.is_authenticated:
+            raise serializers.ValidationError({"message":"already authenticated"})
         
         email = data.get("email", None)
         password = data.get("password", None)
         user = authenticate(email=email, password=password)
         if user is None:
-            # self.fail("A user with this email and password is not not valid.")
             raise serializers.ValidationError({"message":"Invalid credentials"})
         try:
             payload = JWT_PAYLOAD_HANDLER(user)

@@ -1,6 +1,15 @@
+from django.contrib.auth import login
 from django.urls import path
 from . import views
-from .views import *
+from .views import logoutview, userview
+from .registration import registerview
+from .login import UserLoginView
+from .Sequenceddataupload import SequenceUpload
+from .updatesequenced import SequencedUpdate
+from .prouseraccount import UpgradeAccount
+from .dashboard import dashboardview
+from .home import homeview
+# from .userview import userview
 # from .views import LoginAPI
 
 urlpatterns = [
