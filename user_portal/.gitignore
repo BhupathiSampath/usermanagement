@@ -5,9 +5,8 @@
 /myproject/tmp/
 /myproject/media/
 .env.txt
-
+*.__pycache__
 # Byte-compiled / optimized / DLL files
-__pycache__/
 *.py[cod]
 *$py.class
 
