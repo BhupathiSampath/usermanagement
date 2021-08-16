@@ -64,26 +64,14 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class UpgradeSerializer(serializers.ModelSerializer):
-    # is_prouser          = models.BooleanField()
     class Meta:
         model = Account
         fields = ["is_prouser"]
-    # def validate(self, value):
-    #     print(self.context.get('data'))
-    #         # raise serializers.ValidationError({"message":"already authenticated"})
-    #     return value
 class SequencedSerializer(serializers.ModelSerializer):
     class Meta:
         model = InputData
         fields = ["id","username","Total_sequenced","Sequenced_last_week","Uploaded_IGIB_SFTP","Uploaded_NIBMG_DataHub","Uploaded_GISAID","Any_collaboration",]
 
-
-class homeserializer(serializers.ModelSerializer):
-    data = UserSerializer(read_only=True ,many =True)
-    class Meta:
-        model = InputData
-        fields = ("id","data")
-    
 
 
 
@@ -103,6 +91,7 @@ class UserLoginSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=255, read_only=True)
 
     def validate(self, data):
+        
         if self.context.get('request').user.is_authenticated:
             raise serializers.ValidationError({"message":"already authenticated"})
         
@@ -115,9 +104,13 @@ class UserLoginSerializer(serializers.Serializer):
             payload = JWT_PAYLOAD_HANDLER(user)
             jwt_token = JWT_ENCODE_HANDLER(payload)
             update_last_login(None, user)
+            
         except Account.DoesNotExist:
             raise serializers.ValidationError({"message":"Invalid credentials"})
         return {
             'email':user.email,
             'token': jwt_token
         }
+
+
+

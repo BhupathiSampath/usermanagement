@@ -10,18 +10,19 @@
     <title>Update</title>
 </head>
 <body>
-    <h1><b>Update your data here</b></h1>
+    
     <div style="width:100px;">
         <form action="{% url 'Home' %}" method="">
             {% csrf_token %}
             <button style="left: 10px"class="button is-fullwidth  is-danger">Back</button>
         </form>
     </div>
-    <div class="box">
+    <div class="container">
                 <form action="" method="post">
+                    <h1><b>Update your data here</b></h1>
                     {% csrf_token %}
                             <div class="columns is-centered mb-0">
-                                <div class="column is-4">
+                                <div class="column is-6">
                                         <input type="hidden" class="input" name="username" value="{{user.id}}" hidden>
                                     <div class="column">
                                         <label>Total sequenced:</label>
@@ -38,7 +39,7 @@
                                         <input class="input" type="number" name="Uploaded_IGIB_SFTP"  required="required">                                
                                     </div>
                                 </div>
-                                <div class="column is-4">
+                                <div class="column is-6">
                                     <div class="column">
                                         <label class="lable">NIBMG DataHub:</label>
                                         <input class="input" type="number" name="Uploaded_NIBMG_DataHub"  required="required">                                

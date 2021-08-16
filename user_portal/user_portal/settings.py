@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from re import DEBUG
-
+from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,11 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'zz21g9hcc5jr7-i6!!0@)(3_z(c3fx(7d0+@yreybd7qpz&2jn'
-with open(os.path.join(BASE_DIR, 'secret_key.txt')) as f:
-    SECRET_KEY = f.read().strip()
+SECRET_KEY = config("SECRET_KEY")
+# with open(os.path.join(BASE_DIR, 'secret_key.txt')) as f:
+#     SECRET_KEY = f.read().strip()
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", cast=bool)
 # DEBUG = False
 
 ALLOWED_HOSTS = ['*']
@@ -195,7 +195,7 @@ JWT_AUTH = {
 #   'JWT_EXPIRATION_DELTA': timedelta(minutes=0.5),
   'JWT_AUDIENCE': None,
   'JWT_ISSUER': None,
-  'JWT_ALLOW_REFRESH': False,
+  'JWT_ALLOW_REFRESH': True,
   'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30),
 #   'JWT_EXPIRATION_DELTA': timedelta(minutes=0.5),
   'JWT_AUTH_HEADER_PREFIX': '',

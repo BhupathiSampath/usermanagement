@@ -22,7 +22,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView,RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from .serializers import homeserializer, inputserializers,UserSerializer,SequencedSerializer, UpgradeSerializer,UserLoginSerializer
+from .serializers import inputserializers,UserSerializer,SequencedSerializer, UpgradeSerializer,UserLoginSerializer
 from rest_framework.exceptions import AuthenticationFailed
 from django.shortcuts import get_object_or_404
 # Create your views here.
@@ -38,9 +38,7 @@ class UserLoginView(RetrieveAPIView):
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
-    
         # if request.user.is_authenticated:
-            
         #     return Response({"message":"User is already logged in"})
         if serializer.is_valid():
             token = serializer.data['token']
@@ -63,13 +61,9 @@ class UserLoginView(RetrieveAPIView):
             return response
         else:
             print(serializer.errors)
-
             return Response(serializer.errors)
-            # raise serializer.errors
 
 class dashboardview(RetrieveAPIView):
-    # permission_classes = (IsAuthenticated,)
-    # authentication_class = JSONWebTokenAuthentication
     permission_classes = (AllowAny,)
 
     def get(self, request):
@@ -99,7 +93,6 @@ class SequencedUpdate(APIView):
         print(request.successful_authenticator)
         print(request.user)
         print(dir(request.user.is_prouser))
-        
         if serializer.is_valid():
             serializer.save()
         return Response({"message":"Successfully updated"})
@@ -132,7 +125,6 @@ class registerview(CreateAPIView):
         #     #     return Response({"message":"password should > 4 charecters"})
         #     else:
         serializer = self.get_serializer(data=request.data)
-        # print(serializer)
         if serializer.is_valid():
             serializer.save()
             return Response({"message":"successfully registerd",

@@ -11,11 +11,12 @@ from .dashboard import dashboardview
 from .home import homeview
 # from .userview import userview
 # from .views import LoginAPI
-
+from rest_framework_jwt.views import refresh_jwt_token
 urlpatterns = [
     path('',views.hello, name='hello'),
     path('register',views.register, name='register'),
     path('login', views.login, name='login'),
+    path('token-refresh/', refresh_jwt_token),
     path('logout', views.logout, name='logout'),
     path('Home', views.Home, name='Home'),
     path('upgrade', views.upgrade, name='upgrade'),

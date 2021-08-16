@@ -38,6 +38,8 @@ pyparsing==2.4.7
 PyQt5==5.15.2
 PyQt5-sip==12.9.0
 python-dateutil==2.8.2
+python-decouple==3.4
+python-dotenv==0.19.0
 pytz==2021.1
 requests==2.25.1
 serializers==0.2.4
