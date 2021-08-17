@@ -1,5 +1,7 @@
-import jwt
 
+import jwt
+from rest_framework.response import Response
+from .models import Account
 from django.contrib.auth import get_user_model
 from django.utils.encoding import smart_text
 from django.utils.translation import ugettext as _
@@ -7,9 +9,8 @@ from rest_framework import exceptions
 from rest_framework.authentication import (
     BaseAuthentication, get_authorization_header
 )
-
+from rest_framework.permissions import AllowAny
 from rest_framework_jwt.settings import api_settings
-
 
 jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
 jwt_get_username_from_payload = api_settings.JWT_PAYLOAD_GET_USERNAME_HANDLER
@@ -19,7 +20,7 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
     """
     Token based authentication using the JSON Web Token standard.
     """
-
+    # permission_classes = (AllowAny,)
     def authenticate(self, request):
         """
         Returns a two-tuple of `User` and token if a valid signature has been
@@ -27,8 +28,8 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
         """
         jwt_value = self.get_jwt_value(request)
         if jwt_value is None:
-            msg = ({"message":"Authentication credentials were not provided"})
-            raise exceptions.AuthenticationFailed(msg)
+            return None
+
 
         try:
             payload = jwt_decode_handler(jwt_value)
@@ -36,10 +37,11 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
             msg = ({"message":"Signature has expired."})
             raise exceptions.AuthenticationFailed(msg)
         except jwt.DecodeError:
-            msg = _('Error decoding signature.')
+            msg = ({"message":"Error decoding signature."})
             raise exceptions.AuthenticationFailed(msg)
         except jwt.InvalidTokenError:
-            raise exceptions.AuthenticationFailed()
+            msg = ({"message":"invalid token."})
+            raise exceptions.AuthenticationFailed(msg)
 
         user = self.authenticate_credentials(payload)
 
@@ -49,21 +51,21 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
         """
         Returns an active user that matches the payload's user id and email.
         """
-        User = get_user_model()
+        User = Account
         username = jwt_get_username_from_payload(payload)
 
         if not username:
-            msg = _('Invalid payload.')
+            msg = ({"message":"invalid payload"})
             raise exceptions.AuthenticationFailed(msg)
 
         try:
             user = User.objects.get_by_natural_key(username)
         except User.DoesNotExist:
-            msg = _('Invalid signature.')
+            msg = ({"message":"invalid signature"})
             raise exceptions.AuthenticationFailed(msg)
 
         if not user.is_active:
-            msg = _('User account is disabled.')
+            msg = ({"message":"User account is disabled."})
             raise exceptions.AuthenticationFailed(msg)
 
         return user
@@ -92,11 +94,10 @@ class JSONWebTokenAuthentication(BaseJSONWebTokenAuthentication):
             return None
 
         if len(auth) == 1:
-            msg = _('Invalid Authorization header. No credentials provided.')
+            msg = ({"message":"Invalid Authorization header. No credentials provided."})
             raise exceptions.AuthenticationFailed(msg)
         elif len(auth) > 2:
-            msg = _('Invalid Authorization header. Credentials string '
-                    'should not contain spaces.')
+            msg = ({"message":"'Invalid Authorization header. Credentials string' 'should not contain spaces.'"})
             raise exceptions.AuthenticationFailed(msg)
 
         return auth[1]
@@ -108,3 +109,7 @@ class JSONWebTokenAuthentication(BaseJSONWebTokenAuthentication):
         authentication scheme should return `403 Permission Denied` responses.
         """
         return '{0} realm="{1}"'.format(api_settings.JWT_AUTH_HEADER_PREFIX, self.www_authenticate_realm)
+        # return Response("SSSS")
+
+
+

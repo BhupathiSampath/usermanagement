@@ -21,6 +21,8 @@ class homeview(APIView):
     permission_classes = (IsAuthenticated,)
     authentication_class = JSONWebTokenAuthentication
     def get(self, request):
+        if request.user is None:
+            return Response("SSS")
         data = InputData.objects.filter(username=request.user)
         # response = json.dump(data)
         print(request.user)

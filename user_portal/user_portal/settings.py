@@ -14,6 +14,7 @@ import os
 from re import DEBUG
 from decouple import config
 from dotenv import load_dotenv
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv()
@@ -135,18 +136,18 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR,'assets')
 
 # HTTPS Settings
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_SECURE = True
+SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', bool)
+CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', bool)
+SECURE_SSL_SECURE = os.getenv('SECURE_SSL_SECURE', bool)
 
 # HSTS Settings
 
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_SECONDS = os.getenv('SECURE_HSTS_SECONDS')
+SECURE_HSTS_PRELOAD = os.getenv('SECURE_HSTS_PRELOAD', bool)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.getenv('SECURE_HSTS_INCLUDE_SUBDOMAINS', bool)
 
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = os.getenv('SECURE_CONTENT_TYPE_NOSNIFF', bool)
+SECURE_BROWSER_XSS_FILTER = os.getenv('SECURE_BROWSER_XSS_FILTER', bool)
 SECURE_SSL_REDIRECT = False
 
 # Default primary key field type
@@ -165,9 +166,9 @@ REST_FRAMEWORK = {
          'rest_framework.permissions.IsAdminUser',
          ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
+    #  'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    #  BaseJSONWebTokenAuthentication,
+        'users.auth.JSONWebTokenAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
      )
 }
@@ -193,13 +194,13 @@ JWT_AUTH = {
   'JWT_VERIFY': True,
   'JWT_VERIFY_EXPIRATION': True,
   'JWT_LEEWAY': 0,
-  'JWT_EXPIRATION_DELTA': timedelta(days=30),
-#   'JWT_EXPIRATION_DELTA': timedelta(minutes=0.5),
+#   'JWT_EXPIRATION_DELTA': timedelta(days=30),
+  'JWT_EXPIRATION_DELTA': timedelta(minutes=0.5),
   'JWT_AUDIENCE': None,
   'JWT_ISSUER': None,
   'JWT_ALLOW_REFRESH': True,
-  'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30),
-#   'JWT_EXPIRATION_DELTA': timedelta(minutes=0.5),
+#   'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30),
+  'JWT_EXPIRATION_DELTA': timedelta(minutes=0.5),
   'JWT_AUTH_HEADER_PREFIX': '',
   'JWT_AUTH_COOKIE': 'c_uid',
 }
