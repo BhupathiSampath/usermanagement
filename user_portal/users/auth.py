@@ -28,9 +28,12 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
         """
         jwt_value = self.get_jwt_value(request)
         if jwt_value is None:
+            # if jwt_value is not None:
+                # msg = ({"message":"Authentication credentials were not provided."})
+                # raise exceptions.AuthenticationFailed(msg)
             return None
-
-
+        
+            
         try:
             payload = jwt_decode_handler(jwt_value)
         except jwt.ExpiredSignature:
@@ -51,7 +54,7 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
         """
         Returns an active user that matches the payload's user id and email.
         """
-        User = Account
+        User = get_user_model()
         username = jwt_get_username_from_payload(payload)
 
         if not username:
@@ -83,7 +86,7 @@ class JSONWebTokenAuthentication(BaseJSONWebTokenAuthentication):
 
     def get_jwt_value(self, request):
         auth = get_authorization_header(request).split()
-        auth_header_prefix = api_settings.JWT_AUTH_HEADER_PREFIX.lower()
+        auth_header_prefix = api_settings.JWT_AUTH_COOKIE.lower()
 
         if not auth:
             if api_settings.JWT_AUTH_COOKIE:
@@ -99,7 +102,7 @@ class JSONWebTokenAuthentication(BaseJSONWebTokenAuthentication):
         elif len(auth) > 2:
             msg = ({"message":"'Invalid Authorization header. Credentials string' 'should not contain spaces.'"})
             raise exceptions.AuthenticationFailed(msg)
-
+        print(auth[1])
         return auth[1]
 
     def authenticate_header(self, request):
@@ -108,7 +111,7 @@ class JSONWebTokenAuthentication(BaseJSONWebTokenAuthentication):
         header in a `401 Unauthenticated` response, or `None` if the
         authentication scheme should return `403 Permission Denied` responses.
         """
-        return '{0} realm="{1}"'.format(api_settings.JWT_AUTH_HEADER_PREFIX, self.www_authenticate_realm)
+        return '{0} realm="{1}"'.format(api_settings.JWT_AUTH_COOKIE, self.www_authenticate_realm)
         # return Response("SSSS")
 
 

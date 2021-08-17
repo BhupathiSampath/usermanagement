@@ -20,12 +20,13 @@ JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
 JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
 
 class UserLoginSerializer(serializers.Serializer):
-
+    permission_classes = (AllowAny,)
     email = serializers.CharField(max_length=255)
     password = serializers.CharField(max_length=128, write_only=True)
     token = serializers.CharField(max_length=255, read_only=True)
-
+    
     def validate(self, data):
+        
         if self.context.get('request').user.is_authenticated:
             raise serializers.ValidationError({"message":"already authenticated"})
         
@@ -78,6 +79,4 @@ class UserLoginView(RetrieveAPIView):
             }
             return response
         else:
-            print(serializer.errors)
-
             return Response(serializer.errors)
