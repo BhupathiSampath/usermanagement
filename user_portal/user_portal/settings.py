@@ -166,10 +166,9 @@ REST_FRAMEWORK = {
          'rest_framework.permissions.IsAdminUser',
          ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-    #  'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    #  BaseJSONWebTokenAuthentication,
-        'users.auth.JSONWebTokenAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
+    # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    'users.auth.JSONWebTokenAuthentication',
+    # 'rest_framework.authentication.BasicAuthentication',
      )
 }
 
@@ -202,6 +201,6 @@ JWT_AUTH = {
   'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30),
 #   'JWT_EXPIRATION_DELTA': timedelta(minutes=0.5),
   'JWT_AUTH_HEADER_PREFIX': '',
-  'JWT_AUTH_COOKIE': 'c_uid',
+  'JWT_AUTH_COOKIE': os.getenv('JWT_AUTH_COOKIE'),
 }
 
