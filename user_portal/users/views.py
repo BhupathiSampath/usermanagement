@@ -22,7 +22,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView,RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from .serializers import inputserializers,UserSerializer,SequencedSerializer, UpgradeSerializer,UserLoginSerializer
+from users.api.serializers import inputserializers,UserSerializer,SequencedSerializer, UpgradeSerializer,UserLoginSerializer
 from rest_framework.exceptions import AuthenticationFailed
 from django.shortcuts import get_object_or_404
 # Create your views here.
@@ -247,7 +247,7 @@ def login(request):
         return render(request, 'login.html')
 
 def Home(request):
-    data = InputData.objects.filter(username__id=request.user.id)
+    data = InputData.objects.filter(username__id=request.user.id).order_by('-id')
     return render(request, 'data.html',{'data':data})
 
 

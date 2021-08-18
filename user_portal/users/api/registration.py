@@ -5,7 +5,7 @@ from rest_framework import serializers
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import *
+from users.models import *
 
 
 
@@ -20,13 +20,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id','username', 'password', 'password2', 'email',)
         
     def validate(self, value):
+        if self.context.get('request').user.is_authenticated:
+            raise serializers.ValidationError({"message":"already authenticated"})
         data = self.get_initial()
         username = data.get('username')
         email = data.get('email')
-        if self.context.get('request').user.is_authenticated:
-            raise serializers.ValidationError({"message":"already authenticated"})
-        if self.context.get('request').user.is_authenticated:
-            raise serializers.ValidationError({"message":"already authenticated"})
         if Account.objects.filter(username=username).exists():
             raise serializers.ValidationError({"message":"username is already existed"})
         if Account.objects.filter(email=email).exists():

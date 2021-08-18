@@ -46,9 +46,10 @@
                   <!-- Your table content -->
                   <thead id="head">
                     <tr>
-                      <th rowspan="2">ID</th>
-                      <th rowspan="2">Date</th>
+                      <!-- <th rowspan="2">ID</th> -->
                       <th rowspan="2">Username</th>
+                      <th rowspan="2">Date</th>
+                      
                       <th rowspan="2">Total sequenced</th>
                       <th rowspan="2">Sequenced last week</th>
                       
@@ -66,9 +67,9 @@
                 <tbody>
                     {% for data in data %}
                     <tr>
-                        <th scope="row">{{data.id}}</th>
+                        <!-- <th scope="row">{{data.id}}</th> -->
+                        <td style="font-weight: bolder;">{{data.username}}</td>
                         <td>{{data.data_entry}}</td>
-                        <td>{{data.username}}</td>
                         <td>{{data.Total_sequenced}}</td>
                         <td>{{data.Sequenced_last_week}}</td>
                         <td>{{data.Cumulative_sequenced}}</td>
