@@ -67,8 +67,8 @@ class InputData(models.Model):
     Uploaded_GISAID                 = models.IntegerField()
     Any_collaboration               = models.TextField(max_length=200)
 
-    def __str__(self):
-        return self.Any_collaboration
+    # def __str__(self):
+    #     return self.Any_collaboration
 
     def save(self, *args, **kwargs):
         self.Cumulative_sequenced = self.Total_sequenced +self.Sequenced_last_week

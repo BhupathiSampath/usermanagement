@@ -247,8 +247,10 @@ def login(request):
         return render(request, 'login.html')
 
 def Home(request):
-    data = InputData.objects.filter(username__id=request.user.id).order_by('-id')
-    return render(request, 'data.html',{'data':data})
+    # if request.user.is_authenticated:
+        data = InputData.objects.filter(username__id=request.user.id).order_by('-id')
+        return render(request, 'data.html',{'data':data})
+    # return render(request,'index.html')
 
 
 def logout(request):

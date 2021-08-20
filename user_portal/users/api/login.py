@@ -78,5 +78,5 @@ class UserLoginView(RetrieveAPIView):
                 # 'token' : serializer.data['token'],
             }
             return response
-        else:
-            return Response(serializer.errors)
+        print(serializer.errors['message'][0])
+        return Response({'message': serializer.errors['message'][0]})

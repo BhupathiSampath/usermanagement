@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", bool)
 # DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['10.10.6.73']
 AUTH_USER_MODEL = "users.Account"
 
 # Application definition
@@ -133,11 +133,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')
 ]
-STATIC_ROOT = os.path.join(BASE_DIR,'assets')
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
 # HTTPS Settings
 SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', bool)
-CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', bool)
+CSRF_COOKIE_SECURE = True
 SECURE_SSL_SECURE = os.getenv('SECURE_SSL_SECURE', bool)
 
 # HSTS Settings

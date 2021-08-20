@@ -9,6 +9,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 
 class SequencedSerializer(serializers.ModelSerializer):
+    Any_collaboration               = serializers.CharField(required=False)
     class Meta:
         model = InputData
         fields = ["id","username","Total_sequenced","Sequenced_last_week","Uploaded_IGIB_SFTP","Uploaded_NIBMG_DataHub","Uploaded_GISAID","Any_collaboration",]
@@ -25,4 +26,5 @@ class SequencedUpdate(APIView):
         print(dir(request.user.is_prouser))
         if serializer.is_valid():
             serializer.save()
-        return Response({"message":"Successfully updated"})
+            return Response({"message":"Successfully updated"})
+        return Response({"message":"Please enter required fields"})
