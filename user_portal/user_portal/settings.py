@@ -27,8 +27,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # with open(os.path.join(BASE_DIR, 'secret_key.txt')) as f:
 #     SECRET_KEY = f.read().strip()
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", bool)
-# DEBUG = False
+# DEBUG = os.getenv("DEBUG", bool)
+DEBUG = True
 
 ALLOWED_HOSTS = ['10.10.6.73']
 AUTH_USER_MODEL = "users.Account"

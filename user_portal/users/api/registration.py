@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = ('id','username', 'password', 'password2', 'email',)
-        error_messages = {"username": {"required": "Give yourself a username"}}
+        
     def validate(self, value):
         if self.context.get('request').user.is_authenticated:
             raise serializers.ValidationError({"message":"already authenticated"})

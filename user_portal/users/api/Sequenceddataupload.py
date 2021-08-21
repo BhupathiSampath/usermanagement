@@ -29,5 +29,5 @@ class SequenceUpload(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response({"message":"Please enter required fields"})
-        # return Response(serializer.errors)
+        # return Response({"message":"Please enter required fields"})
+        return Response(serializer.errors)
