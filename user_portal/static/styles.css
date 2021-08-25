@@ -24,9 +24,9 @@ td:nth-child(9) { background: hsl(190, 90%, 50%); }
 td:nth-child(10) { background: hsl(200, 99%, 50%);}
 td:nth-child(11) { background: hsl(300, 70%, 40%); } */
 
-#head{
+/* #head{
   text-align: center;
-}
+} */
 
 #pointer {
     cursor: pointer;

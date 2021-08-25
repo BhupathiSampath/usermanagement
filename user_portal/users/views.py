@@ -1,34 +1,21 @@
-from enum import unique
-from os import uname
-from typing import KeysView
 from django.db.models.aggregates import Max
-from django.db.models.query import QuerySet
-from django.http import response
-from django.http.response import JsonResponse, json
 from django.shortcuts import render,HttpResponsePermanentRedirect
 from functools import reduce
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from django.contrib.auth.models import Permission, User, auth
-from django.contrib.auth import authenticate,login
-# from django.contrib.auth.forms import upgradeprofile
-from django.http import HttpResponse, request
-from rest_framework import generics
-from rest_framework import permissions
+from django.contrib.auth.models import auth
+from django.contrib.auth import authenticate
 from .models import Account, InputData
 from .form import MyForm,RegistrationForm,UploadData
-from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView,RetrieveAPIView
+from rest_framework.generics import CreateAPIView,RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from users.api.serializers import inputserializers,UserSerializer,SequencedSerializer, UpgradeSerializer,UserLoginSerializer
-from rest_framework.exceptions import AuthenticationFailed
 from django.shortcuts import get_object_or_404
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
-import jwt, datetime
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 class UserLoginView(RetrieveAPIView):
@@ -248,7 +235,7 @@ def login(request):
 
 def Home(request):
     # if request.user.is_authenticated:
-        data = InputData.objects.filter(username__id=request.user.id).order_by('-id')
+        data = InputData.objects.filter(username=request.user.username).order_by('-id')
         return render(request, 'data.html',{'data':data})
     # return render(request,'index.html')
 

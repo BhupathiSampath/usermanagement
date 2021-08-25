@@ -5,8 +5,7 @@ from rest_framework import serializers, status
 from .serializers import UserLoginSerializer
 from django.shortcuts import get_object_or_404
 # Create your views here.
-from rest_framework.permissions import IsAuthenticated, AllowAny
-import jwt, datetime
+from rest_framework.permissions import AllowAny
 
 
 from django.contrib.auth import authenticate

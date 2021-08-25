@@ -32,7 +32,7 @@ class MyAccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser):
     email               = models.EmailField(verbose_name="email", max_length=60, unique=True)
-    username            = models.CharField(max_length=30,unique=True)
+    username            = models.CharField(primary_key=True, max_length=30,unique=True)
     date_joined         = models.DateTimeField(verbose_name ="date joined", auto_now_add=True)
     last_login          = models.DateTimeField(verbose_name ="last login",auto_now=True)
     is_admin            = models.BooleanField(default=False)
@@ -58,7 +58,7 @@ class Account(AbstractBaseUser):
 
 class InputData(models.Model):
     data_entry                      = models.DateTimeField(verbose_name ="date joined", auto_now_add=True)
-    username                        = models.ForeignKey(Account,verbose_name="username",on_delete=models.CASCADE)
+    username                        = models.ForeignKey(Account,verbose_name="username",to_field="username",on_delete=models.CASCADE)
     Total_sequenced                 = models.IntegerField()
     Sequenced_last_week             = models.IntegerField()
     Cumulative_sequenced            = models.IntegerField()

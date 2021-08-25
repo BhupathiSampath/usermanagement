@@ -18,7 +18,27 @@ class SequencedSerializer(serializers.ModelSerializer):
     class Meta:
         model = InputData
         fields = ["id","username","Total_sequenced","Sequenced_last_week","Uploaded_IGIB_SFTP","Uploaded_NIBMG_DataHub","Uploaded_GISAID","Any_collaboration",]
-
+    def validate(self, attrs):
+        data = self.get_initial()
+        Total_sequenced = data.get('Total_sequenced')
+        Uploaded_GISAID = data.get('Uploaded_GISAID')
+        Sequenced_last_week = data.get('Sequenced_last_week')
+        Uploaded_IGIB_SFTP = data.get('Uploaded_IGIB_SFTP')
+        Uploaded_NIBMG_DataHub = data.get('Uploaded_NIBMG_DataHub')
+        username = data.get('username')
+        if username is None:
+            raise serializers.ValidationError({"message":"username is required field"})
+        if Total_sequenced is None:
+            raise serializers.ValidationError({"message":"Total_sequenced is required field"})
+        if Sequenced_last_week is None:
+            raise serializers.ValidationError({"message":"Sequenced_last_week is required field"})
+        if Uploaded_IGIB_SFTP is None:
+            raise serializers.ValidationError({"message":"Uploaded_IGIB_SFTP is required field"})
+        if Uploaded_NIBMG_DataHub is None:
+            raise serializers.ValidationError({"message":"Uploaded_NIBMG_DataHub is required field"})
+        if Uploaded_GISAID is None:
+            raise serializers.ValidationError({"message":"Uploaded_GISAID is required field"})
+        return super().validate(attrs)
 
 class SequencedUpdate(APIView):
     permission_classes = (IsAuthenticated,)
@@ -33,4 +53,4 @@ class SequencedUpdate(APIView):
             serializer.save()
             return Response({"message":"Successfully updated"})
         # return Response({"message":"Please enter required fields"})
-        return Response(serializer.errors)
+        return Response({"message": serializer.errors['message'][0]})

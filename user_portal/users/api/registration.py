@@ -1,10 +1,9 @@
 from rest_framework import serializers
-from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView,RetrieveAPIView
+from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework import serializers
 # Create your views here.
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny
 from users.models import *
 
 
@@ -25,10 +24,20 @@ class UserSerializer(serializers.ModelSerializer):
         data = self.get_initial()
         username = data.get('username')
         email = data.get('email')
+        password = data.get('password')
+        password2 = data.get('password2')
+        if username is None:
+            raise serializers.ValidationError({"message":"username is required field"})
         if Account.objects.filter(username=username).exists():
             raise serializers.ValidationError({"message":"username is already existed"})
+        if email is None:
+            raise serializers.ValidationError({"message":"email is required field"})
         if Account.objects.filter(email=email).exists():
             raise serializers.ValidationError({"message":"email is already existed"})
+        if password is None:
+            raise serializers.ValidationError({"message":"password is required field"})
+        if password2 is None:
+            raise serializers.ValidationError({"message":"password2 is required field"})
         if value['password'] != value['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match."})
 

@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # DEBUG = os.getenv("DEBUG", bool)
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.10.6.73']
+ALLOWED_HOSTS = ['10.10.6.73', '127.0.0.1']
 AUTH_USER_MODEL = "users.Account"
 
 # Application definition
