@@ -136,7 +136,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
 # HTTPS Settings
-SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', bool)
+SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_SSL_SECURE = os.getenv('SECURE_SSL_SECURE', bool)
 
@@ -158,6 +158,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'access-control-allow-origin',
+]
 
 
 REST_FRAMEWORK = {
@@ -200,7 +212,7 @@ JWT_AUTH = {
   'JWT_ALLOW_REFRESH': True,
   'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30),
 #   'JWT_EXPIRATION_DELTA': timedelta(minutes=0.5),
-  'JWT_AUTH_HEADER_PREFIX': '',
-  'JWT_AUTH_COOKIE': os.getenv('JWT_AUTH_COOKIE'),
+  'JWT_AUTH_HEADER_PREFIX': 'c_uid',
+  'JWT_AUTH_COOKIE': 'c_uid',
 }
 

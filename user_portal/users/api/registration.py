@@ -16,7 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Account
-        fields = ('id','username', 'password', 'password2', 'email',)
+        fields = ('username', 'password', 'password2', 'email',)
         
     def validate(self, value):
         if self.context.get('request').user.is_authenticated:

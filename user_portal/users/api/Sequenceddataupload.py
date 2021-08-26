@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import serializers
 from users.models import *
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 
@@ -42,6 +42,7 @@ class SequencedSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"message":"Uploaded_GISAID is required field"})
         return super().validate(attrs)
 class SequenceUpload(APIView):
+    # permission_classes = (AllowAny,)
     permission_classes = (IsAuthenticated,)
     authentication_class = JSONWebTokenAuthentication
     def post(self,request):

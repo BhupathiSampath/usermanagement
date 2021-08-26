@@ -24,8 +24,8 @@ class homeview(APIView):
     def get(self, request):
         if request.user is None:
             return Response("SSS")
-        data = InputData.objects.filter(username=request.user).order_by(-"id")
+        data = InputData.objects.filter(username=request.user)
         # response = json.dump(data)
         print(request.user)
         serializer = inputserializers(data, many =True)
-        return Response(serializer.data)
+        return Response({"data":serializer.data})

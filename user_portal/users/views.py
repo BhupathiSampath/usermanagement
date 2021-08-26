@@ -144,34 +144,34 @@ class registerview(CreateAPIView):
 #         }
 #         return response
 
-class userview(RetrieveAPIView):
+# class Userview(RetrieveAPIView):
 
-    permission_classes = (IsAuthenticated,)
-    authentication_class = JSONWebTokenAuthentication
+#     permission_classes = (IsAuthenticated,)
+#     authentication_class = JSONWebTokenAuthentication
 
-    def get(self, request):
-        try:
-            account = Account.objects.get(username=request.user)
-            status_code = status.HTTP_200_OK
-            response = {
-                'success': 'true',
-                'status code': status_code,
-                'message': 'User profile fetched successfully',
-                'data': [{
-                    'username': account.username,
-                    'email': account.email,
-                    }]
-                }
+#     def get(self, request):
+#         try:
+#             account = Account.objects.get(username=request.user)
+#             status_code = status.HTTP_200_OK
+#             response = {
+#                 'success': 'true',
+#                 'status code': status_code,
+#                 'message': 'User profile fetched successfully',
+#                 'data': [{
+#                     'username': account.username,
+#                     'email': account.email,
+#                     }]
+#                 }
 
-        except Exception as e:
-            status_code = status.HTTP_400_BAD_REQUEST
-            response = {
-                'success': 'false',
-                'status code': status.HTTP_400_BAD_REQUEST,
-                'message': 'User does not exists',
-                'error': str(e)
-                }
-        return Response(response, status=status_code)
+#         except Exception as e:
+#             status_code = status.HTTP_400_BAD_REQUEST
+#             response = {
+#                 'success': 'false',
+#                 'status code': status.HTTP_400_BAD_REQUEST,
+#                 'message': 'User does not exists',
+#                 'error': str(e)
+#                 }
+#         return Response(response, status=status_code)
 
 class logoutview(APIView):
     permission_classes = (IsAuthenticated,)

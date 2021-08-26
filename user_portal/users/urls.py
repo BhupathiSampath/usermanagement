@@ -1,7 +1,7 @@
 from django.contrib.auth import login
 from django.urls import path
 from . import views
-from .views import logoutview, userview
+from .views import logoutview
 from users.api.registration import registerview
 from users.api.login import UserLoginView
 from users.api.Sequenceddataupload import SequenceUpload
@@ -9,6 +9,7 @@ from users.api.updatesequenced import SequencedUpdate
 from users.api.prouseraccount import UpgradeAccount
 from users.api.dashboard import dashboardview
 from users.api.home import homeview
+from users.api.userview import userview
 # from .userview import userview
 # from .views import LoginAPI
 from rest_framework_jwt.views import refresh_jwt_token

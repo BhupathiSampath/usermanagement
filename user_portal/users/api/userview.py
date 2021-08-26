@@ -5,7 +5,7 @@ from rest_framework import serializers
 from users.models import *
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView,RetrieveAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView,RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.db.models.aggregates import Max
 from rest_framework import serializers, status
@@ -39,3 +39,11 @@ class userview(RetrieveAPIView):
                 'error': str(e)
                 }
         return Response(response, status=status_code)
+
+# class userview(APIView):
+#     permission_classes = (IsAuthenticated,)
+#     authentication_class = JSONWebTokenAuthentication
+#     def get(self, request):
+#         token = request.COOKIES.get('c_uid')
+        
+#         return Response(token)
