@@ -178,7 +178,7 @@ class logoutview(APIView):
     authentication_class = JSONWebTokenAuthentication
     def post(self, request):
         response = Response()
-        response.delete_cookie('c_uid')
+        response.delete_cookie('jwt')
         response.data ={
             "message": "Logged out successfully"
         }
@@ -215,9 +215,12 @@ class homeview(APIView):
 
 def hello(request):
     # data1 = Account.objects.values('username')
+    A = Account.objects.values('username')
+    b = InputData.objects.filter().values('username').distinct()
+    data1 = A.difference(b)
     data = InputData.objects.filter(data_entry__in=InputData.objects.values('username').annotate(Max('data_entry')).values_list('data_entry__max'))
     # data2 = InputData.objects.values('username')
-    return render(request, 'index.html',{'data' : data})
+    return render(request, 'index.html',{'data' : data, 'data1': data1})
 
 def login(request):
     if request.method == 'POST':

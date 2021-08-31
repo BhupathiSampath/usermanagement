@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # DEBUG = os.getenv("DEBUG", bool)
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.10.6.73', '127.0.0.1']
+ALLOWED_HOSTS = ['10.10.6.73', '127.0.0.1',"localhost"]
 AUTH_USER_MODEL = "users.Account"
 
 # Application definition
@@ -129,12 +129,19 @@ USE_TZ = os.getenv('USE_TZ', bool)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'static')
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR,'static')
+# ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
+STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR,'static')
+# ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+STATICFILES_DIR ='/home/icgc_sub/Desktop/user_management/user_portal/static'
+STATIC_ROOT = '/home/icgc_sub/Desktop/user_management/user_portal/assets'
 # HTTPS Settings
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
@@ -212,7 +219,7 @@ JWT_AUTH = {
   'JWT_ALLOW_REFRESH': True,
   'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30),
 #   'JWT_EXPIRATION_DELTA': timedelta(minutes=0.5),
-  'JWT_AUTH_HEADER_PREFIX': 'c_uid',
-  'JWT_AUTH_COOKIE': 'c_uid',
+  'JWT_AUTH_HEADER_PREFIX': '',
+  'JWT_AUTH_COOKIE': 'jwt',
 }
 

@@ -1,4 +1,5 @@
 
+# from datetime import datetime
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -45,8 +46,8 @@ class UserLoginSerializer(serializers.Serializer):
             'token': jwt_token
         }
 
-
-
+import datetime
+from datetime import timedelta
 class UserLoginView(RetrieveAPIView):
 
     permission_classes = (AllowAny,)
@@ -66,8 +67,9 @@ class UserLoginView(RetrieveAPIView):
                 'message': 'User logged in  successfully',
                 'token' : serializer.data['token'],
                 }
+            
             response = Response()
-            response.set_cookie(key='c_uid', value=token,httponly=True,)
+            response.set_cookie(key='jwt', value=token,httponly=True,)
             # print(serializer.errors)
             # print(dir(serializer.errors))
             response.data = {

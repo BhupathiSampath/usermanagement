@@ -24,10 +24,10 @@ class userview(RetrieveAPIView):
                 'success': 'true',
                 'status code': status_code,
                 'message': 'User profile fetched successfully',
-                'data': [{
-                    'username': account.username,
-                    'email': account.email,
-                    }]
+                
+                'username': account.username,
+                'email': account.email,
+                    
                 }
 
         except Exception as e:
